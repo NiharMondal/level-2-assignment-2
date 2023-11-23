@@ -11,10 +11,20 @@ const findAllUsers = async () => {
 	return result;
 };
 const findSingleUser = async (id: string) => {
+	const user = await User.myStaticMethod(id);
+
+	if (!user) {
+		throw new Error("User not found!");
+	}
 	const result = await User.findById(id);
 	return result;
 };
 const updateUser = async (id: string, userData: IUser) => {
+	const user = await User.myStaticMethod(id);
+
+	if (!user) {
+		throw new Error("User not found!");
+	}
 	const result = await User.findByIdAndUpdate(id, userData, {
 		new: true,
 		runValidators: true,
@@ -23,6 +33,11 @@ const updateUser = async (id: string, userData: IUser) => {
 };
 
 const deleteUser = async (id: string) => {
+	const user = await User.myStaticMethod(id);
+
+	if (!user) {
+		throw new Error("User not found!");
+	}
 	const result = await User.deleteOne({ _id: id });
 	return result;
 };

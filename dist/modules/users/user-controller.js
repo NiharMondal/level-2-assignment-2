@@ -64,7 +64,10 @@ const findSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({
             success: false,
             message: "Something went wrong",
-            error: error,
+            error: {
+                code: 404,
+                description: error.message,
+            },
         });
     }
 });
@@ -82,7 +85,10 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({
             success: false,
             message: "Something went wrong",
-            error: error,
+            error: {
+                code: 404,
+                description: error.message,
+            },
         });
     }
 });
@@ -100,7 +106,10 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({
             success: false,
             message: "Something went wrong",
-            error: error,
+            error: {
+                code: 404,
+                description: error.message,
+            },
         });
     }
 });

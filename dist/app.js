@@ -10,9 +10,10 @@ const user_routes_1 = require("./modules/users/user-routes");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+//use routes
+app.use("/api/users", user_routes_1.userRouter);
+//root route
 app.use("/", (req, res) => {
     res.json({ success: true, message: "Welcome to the home page" });
 });
-//use routes
-app.use("/api/users", user_routes_1.userRouter);
 exports.default = app;

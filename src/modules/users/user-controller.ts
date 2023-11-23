@@ -49,11 +49,14 @@ const findSingleUser = async (req: Request, res: Response) => {
 			message: "User fetched successfully",
 			data: user,
 		});
-	} catch (error) {
+	} catch (error: any) {
 		res.status(500).json({
 			success: false,
 			message: "Something went wrong",
-			error: error,
+			error: {
+				code: 404,
+				description: error.message,
+			},
 		});
 	}
 };
@@ -67,11 +70,14 @@ const updateUser = async (req: Request, res: Response) => {
 			message: "User has been updated successfully",
 			data: user,
 		});
-	} catch (error) {
+	} catch (error: any) {
 		res.status(500).json({
 			success: false,
 			message: "Something went wrong",
-			error: error,
+			error: {
+				code: 404,
+				description: error.message,
+			},
 		});
 	}
 };
@@ -85,11 +91,14 @@ const deleteUser = async (req: Request, res: Response) => {
 			message: "User has been deleted successfully",
 			data: user,
 		});
-	} catch (error) {
+	} catch (error: any) {
 		res.status(500).json({
 			success: false,
 			message: "Something went wrong",
-			error: error,
+			error: {
+				code: 404,
+				description: error.message,
+			},
 		});
 	}
 };

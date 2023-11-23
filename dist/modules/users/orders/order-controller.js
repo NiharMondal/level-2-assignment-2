@@ -30,35 +30,42 @@ const getAllOrdersOfSpecificUser = (req, res) => __awaiter(void 0, void 0, void 
 });
 const updateOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield order_services_1.orderServices.updateOrder(req.params.userId, req.body);
+        yield order_services_1.orderServices.updateOrder(req.params.userId, req.body);
         res.status(200).json({
             success: true,
             message: "Order updated successfully!",
-            data: result,
+            data: null,
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "User not found",
-            error: error,
+            message: "Something went wrong",
+            error: {
+                code: 404,
+                description: error.message,
+            },
         });
     }
 });
 const calculateTotalPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield order_services_1.orderServices.calculateTotalPrice(req.params.userId);
+        const userId = req.params.userId;
+        const result = yield order_services_1.orderServices.calculateTotalPrice(userId);
         res.status(200).json({
             success: true,
             message: "Total price calculated successfully",
-            data: result,
+            data: result[0],
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "User not found",
-            error: error,
+            message: "Something went wrong",
+            error: {
+                code: 404,
+                description: error.message,
+            },
         });
     }
 });

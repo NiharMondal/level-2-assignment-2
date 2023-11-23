@@ -23,10 +23,18 @@ const findAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const findSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.default.myStaticMethod(id);
+    if (!user) {
+        throw new Error("User not found!");
+    }
     const result = yield user_model_1.default.findById(id);
     return result;
 });
 const updateUser = (id, userData) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.default.myStaticMethod(id);
+    if (!user) {
+        throw new Error("User not found!");
+    }
     const result = yield user_model_1.default.findByIdAndUpdate(id, userData, {
         new: true,
         runValidators: true,
@@ -34,6 +42,10 @@ const updateUser = (id, userData) => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.default.myStaticMethod(id);
+    if (!user) {
+        throw new Error("User not found!");
+    }
     const result = yield user_model_1.default.deleteOne({ _id: id });
     return result;
 });

@@ -29,22 +29,23 @@ const userSchema = new mongoose_1.Schema({
         city: String,
         country: String,
     },
-    orders: {
-        type: [orderSchema],
-        default: undefined,
-    },
+    orders: [orderSchema],
 }, {
     toJSON: {
         virtuals: true,
         transform: true,
     },
 });
-//this is for exclude password field from user document
+//exclude password field from user document
 userSchema.set("toJSON", {
     transform: function (doc, ret) {
         delete ret.password;
         return ret;
     },
+});
+userSchema.static("myStaticMethod", function myStaticMethod(id) {
+    const user = User.findById(id);
+    return user;
 });
 const User = (0, mongoose_1.model)("User", userSchema);
 exports.default = User;

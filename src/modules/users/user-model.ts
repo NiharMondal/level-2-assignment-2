@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 import { IUser, IOrder } from "./user-interface";
 const orderSchema = new Schema<IOrder>({
 	productName: String,
@@ -6,7 +6,7 @@ const orderSchema = new Schema<IOrder>({
 	quantity: Number,
 });
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, UserModel>(
 	{
 		userId: { type: Number, unique: true },
 		username: {
@@ -30,10 +30,7 @@ const userSchema = new Schema<IUser>(
 			city: String,
 			country: String,
 		},
-		orders: {
-			type: [orderSchema],
-			default: undefined,
-		},
+		orders: [orderSchema],
 	},
 	{
 		toJSON: {
@@ -43,7 +40,10 @@ const userSchema = new Schema<IUser>(
 	}
 );
 
-//this is for exclude password field from user document
+interface UserModel extends Model<IUser> {
+	myStaticMethod(id: string): Promise<IUser>;
+}
+//exclude password field from user document
 userSchema.set("toJSON", {
 	transform: function (doc, ret) {
 		delete ret.password;
@@ -51,6 +51,10 @@ userSchema.set("toJSON", {
 	},
 });
 
-const User = model<IUser>("User", userSchema);
+userSchema.static("myStaticMethod", function myStaticMethod(id: string) {
+	const user = User.findById(id);
+	return user;
+});
+const User = model<IUser, UserModel>("User", userSchema);
 
 export default User;

@@ -15,10 +15,13 @@ router
 	.patch(userController.updateUser)
 	.delete(userController.deleteUser);
 
+//order routes
 router
 	.route("/:userId/orders")
 	.get(orderController.getAllOrdersOfSpecificUser)
 	.patch(orderController.updateOrder);
+
+//total-price route
 router
 	.route("/:userId/orders/total-price")
 	.get(orderController.calculateTotalPrice);
