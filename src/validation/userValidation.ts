@@ -33,5 +33,5 @@ export const userValidation = z.object({
 		city: z.string(),
 		country: z.string(),
 	}),
-	orders: z.array(orderValidation),
+	orders: z.array(orderValidation).optional(),
 });

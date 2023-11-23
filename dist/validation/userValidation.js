@@ -34,5 +34,5 @@ exports.userValidation = zod_1.z.object({
         city: zod_1.z.string(),
         country: zod_1.z.string(),
     }),
-    orders: zod_1.z.array(exports.orderValidation),
+    orders: zod_1.z.array(exports.orderValidation).optional(),
 });
