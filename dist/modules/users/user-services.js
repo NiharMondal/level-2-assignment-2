@@ -28,7 +28,7 @@ const findSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     if (!user) {
         throw new Error("User not found!");
     }
-    const result = yield user_model_1.default.findById(id);
+    const result = yield user_model_1.default.findById(id).select("-orders");
     return result;
 });
 const updateUser = (id, userData) => __awaiter(void 0, void 0, void 0, function* () {

@@ -31,7 +31,10 @@ const userSchema = new Schema<IUser, UserModel>(
 			city: String,
 			country: String,
 		},
-		orders: [orderSchema],
+		orders: {
+			type: [orderSchema],
+			default: undefined,
+		},
 	},
 	{
 		toJSON: {
@@ -48,6 +51,7 @@ interface UserModel extends Model<IUser> {
 userSchema.set("toJSON", {
 	transform: function (doc, ret) {
 		delete ret.password;
+
 		return ret;
 	},
 });

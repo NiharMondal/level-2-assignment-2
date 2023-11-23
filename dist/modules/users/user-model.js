@@ -30,7 +30,10 @@ const userSchema = new mongoose_1.Schema({
         city: String,
         country: String,
     },
-    orders: [orderSchema],
+    orders: {
+        type: [orderSchema],
+        default: undefined,
+    },
 }, {
     toJSON: {
         virtuals: true,

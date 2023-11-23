@@ -18,7 +18,7 @@ const findSingleUser = async (id: string) => {
 	if (!user) {
 		throw new Error("User not found!");
 	}
-	const result = await User.findById(id);
+	const result = await User.findById(id).select("-orders");
 	return result;
 };
 const updateUser = async (id: string, userData: IUser) => {
