@@ -43,7 +43,7 @@ Order endpoint
     //get all orders by ID
     http://localhost:5000/api/users/:userId/orders
 
-    //update user by ID
+    //update orders array by ID
     http://localhost:5000/api/users/:userId/orders
 
 
