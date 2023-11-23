@@ -48,3 +48,23 @@ Order endpoint
 
 
 ```
+
+Get total amount of specific user
+
+```
+
+   //get total amount
+   http://localhost:5000/api/users/:userId/orders/total-price
+
+   Example
+
+   {
+      "success": true,
+      "message": "Total price calculated successfully!",
+      "data": {
+         "totalPrice": 754
+   }
+}
+
+
+```
