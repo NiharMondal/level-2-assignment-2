@@ -11,6 +11,8 @@ const findAllUsers = async () => {
 	return result;
 };
 const findSingleUser = async (id: string) => {
+	//checking user is found or not
+
 	const user = await User.myStaticMethod(id);
 
 	if (!user) {
@@ -20,6 +22,7 @@ const findSingleUser = async (id: string) => {
 	return result;
 };
 const updateUser = async (id: string, userData: IUser) => {
+	//checking user is found or not
 	const user = await User.myStaticMethod(id);
 
 	if (!user) {
@@ -33,6 +36,7 @@ const updateUser = async (id: string, userData: IUser) => {
 };
 
 const deleteUser = async (id: string) => {
+	//checking user is found or not
 	const user = await User.myStaticMethod(id);
 
 	if (!user) {

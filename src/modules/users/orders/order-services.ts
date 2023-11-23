@@ -3,10 +3,17 @@ import { IOrder } from "../user-interface";
 import User from "../user-model";
 
 const getAllOrdersOfSpecificUser = async (userId: string) => {
+	//checking user is found or not
+	const user = await User.myStaticMethod(userId);
+
+	if (!user) {
+		throw new Error("User not found!");
+	}
 	const result = await User.findById(userId).select("orders -_id");
 	return result;
 };
 const updateOrder = async (userId: string, order: IOrder) => {
+	//checking user is found or not
 	const user = await User.myStaticMethod(userId);
 
 	if (!user) {
@@ -23,6 +30,7 @@ const updateOrder = async (userId: string, order: IOrder) => {
 };
 
 const calculateTotalPrice = async (userId: string) => {
+	//checking user is found or not
 	const user = await User.myStaticMethod(userId);
 
 	if (!user) {

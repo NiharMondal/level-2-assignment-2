@@ -23,8 +23,11 @@ const getAllOrdersOfSpecificUser = (req, res) => __awaiter(void 0, void 0, void 
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "User not found",
-            error: error,
+            message: "Something went wrong",
+            error: {
+                code: 404,
+                description: error.message,
+            },
         });
     }
 });

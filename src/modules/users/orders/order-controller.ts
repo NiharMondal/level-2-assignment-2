@@ -12,11 +12,14 @@ const getAllOrdersOfSpecificUser = async (req: Request, res: Response) => {
 			message: "Order fetched successfully!",
 			data: result,
 		});
-	} catch (error) {
+	} catch (error: any) {
 		res.status(500).json({
 			success: false,
-			message: "User not found",
-			error: error,
+			message: "Something went wrong",
+			error: {
+				code: 404,
+				description: error.message,
+			},
 		});
 	}
 };
