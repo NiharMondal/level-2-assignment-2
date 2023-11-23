@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderController = void 0;
 const order_services_1 = require("./order-services");
+const userValidation_1 = require("../../../validation/userValidation");
 const getAllOrdersOfSpecificUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield order_services_1.orderServices.getAllOrdersOfSpecificUser(req.params.userId);
@@ -33,7 +34,8 @@ const getAllOrdersOfSpecificUser = (req, res) => __awaiter(void 0, void 0, void 
 });
 const updateOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield order_services_1.orderServices.updateOrder(req.params.userId, req.body);
+        const validatedOrderInfo = userValidation_1.orderValidation.parse(req.body);
+        yield order_services_1.orderServices.updateOrder(req.params.userId, validatedOrderInfo);
         res.status(200).json({
             success: true,
             message: "Order updated successfully!",

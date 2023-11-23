@@ -2,15 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const orderSchema = new mongoose_1.Schema({
-    productName: String,
-    price: Number,
-    quantity: Number,
+    productName: { type: String, required: true },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
 });
 const userSchema = new mongoose_1.Schema({
-    userId: { type: Number, unique: true },
+    userId: { type: Number, unique: true, required: true },
     username: {
         type: String,
         unique: true,
+        required: true,
     },
     password: String,
     fullName: {

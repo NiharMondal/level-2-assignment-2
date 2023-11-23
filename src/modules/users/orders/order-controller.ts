@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { orderServices } from "./order-services";
+import { orderValidation } from "../../../validation/userValidation";
 
 const getAllOrdersOfSpecificUser = async (req: Request, res: Response) => {
 	try {
@@ -25,7 +26,8 @@ const getAllOrdersOfSpecificUser = async (req: Request, res: Response) => {
 };
 const updateOrder = async (req: Request, res: Response) => {
 	try {
-		await orderServices.updateOrder(req.params.userId, req.body);
+		const validatedOrderInfo = orderValidation.parse(req.body);
+		await orderServices.updateOrder(req.params.userId, validatedOrderInfo);
 
 		res.status(200).json({
 			success: true,

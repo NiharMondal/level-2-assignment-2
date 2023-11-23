@@ -1,17 +1,18 @@
 import { Model, Schema, model } from "mongoose";
 import { IUser, IOrder } from "./user-interface";
 const orderSchema = new Schema<IOrder>({
-	productName: String,
-	price: Number,
-	quantity: Number,
+	productName: { type: String, required: true },
+	price: { type: Number, required: true },
+	quantity: { type: Number, required: true },
 });
 
 const userSchema = new Schema<IUser, UserModel>(
 	{
-		userId: { type: Number, unique: true },
+		userId: { type: Number, unique: true, required: true },
 		username: {
 			type: String,
 			unique: true,
+			required: true,
 		},
 		password: String,
 		fullName: {
