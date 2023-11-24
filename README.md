@@ -12,6 +12,10 @@
 
 ```
 
+> [!NOTE]   
+> Use **PATCH METHOD** to update data   
+> Use MongoDB default "_id" value to perform query or update     
+
 **When you are ready to use this app, endpoint should be like that**
 
 Users Endpoint--
