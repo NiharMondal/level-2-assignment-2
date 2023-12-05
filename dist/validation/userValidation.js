@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userValidation = exports.orderValidation = void 0;
+exports.userUpdateValidation = exports.userValidation = exports.orderValidation = void 0;
 const zod_1 = require("zod");
 exports.orderValidation = zod_1.z.object({
     productName: zod_1.z
         .string()
-        .min(5, { message: "Name should be more characters" }),
+        .min(2, { message: "Name should be more characters" }),
     price: zod_1.z.number().int().positive({ message: "Must be a positive value" }),
     quantity: zod_1.z.number().int().positive({ message: "Must be a positive value" }),
 });
@@ -27,7 +27,7 @@ exports.userValidation = zod_1.z.object({
         .trim()
         .email({ message: "Provide a valid email" })
         .toLowerCase(),
-    isActive: zod_1.z.boolean(),
+    isActive: zod_1.z.boolean().optional(),
     hobbies: zod_1.z.array(zod_1.z.string()),
     address: zod_1.z.object({
         street: zod_1.z.string(),
@@ -36,3 +36,4 @@ exports.userValidation = zod_1.z.object({
     }),
     orders: zod_1.z.array(exports.orderValidation).optional(),
 });
+exports.userUpdateValidation = exports.userValidation.optional();

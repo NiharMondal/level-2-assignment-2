@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model, Schema, model } from "mongoose";
 import { IUser, IOrder } from "./user-interface";
 const orderSchema = new Schema<IOrder>({
@@ -45,19 +46,20 @@ const userSchema = new Schema<IUser, UserModel>(
 );
 
 interface UserModel extends Model<IUser> {
-	myStaticMethod(id: string): Promise<IUser>;
+	isUserExists(id: string): Promise<IUser>;
 }
+
 //exclude password field from user document
 userSchema.set("toJSON", {
 	transform: function (doc, ret) {
 		delete ret.password;
-
 		return ret;
 	},
 });
 
-userSchema.static("myStaticMethod", function myStaticMethod(id: string) {
-	const user = User.findById(id);
+//static method for user --> exists or not
+userSchema.static("isUserExists", function isUserExists(id: string) {
+	const user = User.findOne({ userId: id });
 	return user;
 });
 const User = model<IUser, UserModel>("User", userSchema);

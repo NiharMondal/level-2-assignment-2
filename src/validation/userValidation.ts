@@ -3,7 +3,7 @@ import { z } from "zod";
 export const orderValidation = z.object({
 	productName: z
 		.string()
-		.min(5, { message: "Name should be more characters" }),
+		.min(2, { message: "Name should be more characters" }),
 	price: z.number().int().positive({ message: "Must be a positive value" }),
 	quantity: z.number().int().positive({ message: "Must be a positive value" }),
 });
@@ -26,7 +26,7 @@ export const userValidation = z.object({
 		.trim()
 		.email({ message: "Provide a valid email" })
 		.toLowerCase(),
-	isActive: z.boolean(),
+	isActive: z.boolean().optional(),
 	hobbies: z.array(z.string()),
 	address: z.object({
 		street: z.string(),
@@ -35,3 +35,5 @@ export const userValidation = z.object({
 	}),
 	orders: z.array(orderValidation).optional(),
 });
+
+export const userUpdateValidation = userValidation.optional();

@@ -19,7 +19,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const user = yield user_services_1.userServices.createUser(validatedUser);
         res.status(201).json({
             success: true,
-            message: "User created successfully",
+            message: "User created successfully!",
             data: user,
         });
     }
@@ -37,7 +37,7 @@ const findAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const user = yield user_services_1.userServices.findAllUsers();
         res.status(200).json({
             success: true,
-            message: "User fetched successfully",
+            message: "Users fetched successfully!",
             data: user,
         });
     }
@@ -56,14 +56,14 @@ const findSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const user = yield user_services_1.userServices.findSingleUser(userId);
         res.status(200).json({
             success: true,
-            message: "User fetched successfully",
+            message: "User fetched successfully!",
             data: user,
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "User not found",
             error: {
                 code: 404,
                 description: error.message,
@@ -71,20 +71,21 @@ const findSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
+//update user
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     try {
         const user = yield user_services_1.userServices.updateUser(userId, req.body);
         res.status(200).json({
             success: true,
-            message: "User has been updated successfully",
+            message: "User updated successfully!",
             data: user,
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "User not found",
             error: {
                 code: 404,
                 description: error.message,
@@ -92,20 +93,21 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+//delete user
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.params.userId;
-        const user = yield user_services_1.userServices.deleteUser(userId);
+        yield user_services_1.userServices.deleteUser(userId);
         res.status(200).json({
             success: true,
-            message: "User has been deleted successfully",
-            data: user,
+            message: "User deleted successfully!",
+            data: null,
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "User not found",
             error: {
                 code: 404,
                 description: error.message,

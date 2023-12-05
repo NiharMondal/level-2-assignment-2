@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { orderServices } from "./order-services";
 import { orderValidation } from "../../../validation/userValidation";
@@ -16,7 +17,7 @@ const getAllOrdersOfSpecificUser = async (req: Request, res: Response) => {
 	} catch (error: any) {
 		res.status(500).json({
 			success: false,
-			message: "Something went wrong",
+			message: "User not found",
 			error: {
 				code: 404,
 				description: error.message,
@@ -24,6 +25,8 @@ const getAllOrdersOfSpecificUser = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+//update orders list
 const updateOrder = async (req: Request, res: Response) => {
 	try {
 		const validatedOrderInfo = orderValidation.parse(req.body);
@@ -31,7 +34,7 @@ const updateOrder = async (req: Request, res: Response) => {
 
 		res.status(200).json({
 			success: true,
-			message: "Order updated successfully!",
+			message: "Order created successfully!",
 			data: null,
 		});
 	} catch (error: any) {
@@ -45,20 +48,32 @@ const updateOrder = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+//caculate total price of a specific user
 const calculateTotalPrice = async (req: Request, res: Response) => {
 	try {
 		const userId = req.params.userId;
 		const result = await orderServices.calculateTotalPrice(userId);
 
-		res.status(200).json({
+		//extra layer
+		//checking user exists but has no orders array
+		if (!result.length) {
+			return res.status(200).json({
+				success: true,
+				message: "This user has no orders array in the documents",
+			});
+		}
+
+		//here is ther actual result
+		return res.status(200).json({
 			success: true,
-			message: "Total price calculated successfully",
+			message: "Total price calculated successfully!",
 			data: result[0],
 		});
 	} catch (error: any) {
 		res.status(500).json({
 			success: false,
-			message: "Something went wrong",
+			message: "User not found",
 			error: {
 				code: 404,
 				description: error.message,

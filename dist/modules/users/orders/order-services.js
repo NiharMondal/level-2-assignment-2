@@ -13,40 +13,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderServices = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../user-model"));
 const getAllOrdersOfSpecificUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     //checking user is found or not
-    const user = yield user_model_1.default.myStaticMethod(userId);
+    const user = yield user_model_1.default.isUserExists(userId);
     if (!user) {
         throw new Error("User not found!");
     }
-    const result = yield user_model_1.default.findById(userId).select("orders -_id");
+    const result = yield user_model_1.default.findOne({ userId }).select("orders -_id");
     return result;
 });
 const updateOrder = (userId, order) => __awaiter(void 0, void 0, void 0, function* () {
     //checking user is found or not
-    const user = yield user_model_1.default.myStaticMethod(userId);
+    const user = yield user_model_1.default.isUserExists(userId);
     if (!user) {
         throw new Error("User not found!");
     }
-    const result = yield user_model_1.default.findByIdAndUpdate(userId, {
+    yield user_model_1.default.findOneAndUpdate({ userId }, {
         $push: { orders: order },
     }, { new: true, runValidators: true });
-    return result;
 });
 const calculateTotalPrice = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     //checking user is found or not
-    const user = yield user_model_1.default.myStaticMethod(userId);
+    const user = yield user_model_1.default.isUserExists(userId);
     if (!user) {
         throw new Error("User not found!");
     }
     const data = yield user_model_1.default.aggregate([
-        //stage 1 --->findby userId
-        { $match: { _id: new mongoose_1.default.Types.ObjectId(userId) } },
-        // stage 2 ---> break oders array
+        //stage 1 --> match by id
+        { $match: { userId: user.userId } },
+        //stage 2 --> breaks orders array
         { $unwind: "$orders" },
-        //stage 3 ---> group by id and calculate totalprice
         {
             $group: {
                 _id: null,

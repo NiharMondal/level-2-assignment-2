@@ -24,7 +24,7 @@ const getAllOrdersOfSpecificUser = (req, res) => __awaiter(void 0, void 0, void 
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "User not found",
             error: {
                 code: 404,
                 description: error.message,
@@ -32,13 +32,14 @@ const getAllOrdersOfSpecificUser = (req, res) => __awaiter(void 0, void 0, void 
         });
     }
 });
+//update orders list
 const updateOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const validatedOrderInfo = userValidation_1.orderValidation.parse(req.body);
         yield order_services_1.orderServices.updateOrder(req.params.userId, validatedOrderInfo);
         res.status(200).json({
             success: true,
-            message: "Order updated successfully!",
+            message: "Order created successfully!",
             data: null,
         });
     }
@@ -53,20 +54,30 @@ const updateOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+//caculate total price of a specific user
 const calculateTotalPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.params.userId;
         const result = yield order_services_1.orderServices.calculateTotalPrice(userId);
-        res.status(200).json({
+        //extra layer
+        //checking user exists but has no orders array
+        if (!result.length) {
+            return res.status(200).json({
+                success: true,
+                message: "This user has no orders array in the documents",
+            });
+        }
+        //here is ther actual result
+        return res.status(200).json({
             success: true,
-            message: "Total price calculated successfully",
+            message: "Total price calculated successfully!",
             data: result[0],
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "User not found",
             error: {
                 code: 404,
                 description: error.message,

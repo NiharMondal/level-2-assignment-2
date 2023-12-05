@@ -1,50 +1,46 @@
-import mongoose from "mongoose";
 import { IOrder } from "../user-interface";
 import User from "../user-model";
 
 const getAllOrdersOfSpecificUser = async (userId: string) => {
 	//checking user is found or not
-	const user = await User.myStaticMethod(userId);
+	const user = await User.isUserExists(userId);
 
 	if (!user) {
 		throw new Error("User not found!");
 	}
-	const result = await User.findById(userId).select("orders -_id");
+	const result = await User.findOne({ userId }).select("orders -_id");
 	return result;
 };
 const updateOrder = async (userId: string, order: IOrder) => {
 	//checking user is found or not
-	const user = await User.myStaticMethod(userId);
+	const user = await User.isUserExists(userId);
 
 	if (!user) {
 		throw new Error("User not found!");
 	}
-	const result = await User.findByIdAndUpdate(
-		userId,
+	await User.findOneAndUpdate(
+		{ userId },
 		{
 			$push: { orders: order },
 		},
 		{ new: true, runValidators: true }
 	);
-	return result;
 };
 
 const calculateTotalPrice = async (userId: string) => {
 	//checking user is found or not
-	const user = await User.myStaticMethod(userId);
+	const user = await User.isUserExists(userId);
 
 	if (!user) {
 		throw new Error("User not found!");
 	}
 
 	const data = await User.aggregate([
-		//stage 1 --->findby userId
-		{ $match: { _id: new mongoose.Types.ObjectId(userId) } },
-
-		// stage 2 ---> break oders array
+		//stage 1 --> match by id
+		{ $match: { userId: user.userId } },
+		//stage 2 --> breaks orders array
 		{ $unwind: "$orders" },
 
-		//stage 3 ---> group by id and calculate totalprice
 		{
 			$group: {
 				_id: null,

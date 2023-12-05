@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-unused-vars */
 const mongoose_1 = require("mongoose");
 const orderSchema = new mongoose_1.Schema({
     productName: { type: String, required: true },
@@ -47,8 +48,9 @@ userSchema.set("toJSON", {
         return ret;
     },
 });
-userSchema.static("myStaticMethod", function myStaticMethod(id) {
-    const user = User.findById(id);
+//static method for user --> exists or not
+userSchema.static("isUserExists", function isUserExists(id) {
+    const user = User.findOne({ userId: id });
     return user;
 });
 const User = (0, mongoose_1.model)("User", userSchema);

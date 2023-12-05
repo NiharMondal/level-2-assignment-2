@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { userServices } from "./user-services";
 import { userValidation } from "../../validation/userValidation";
@@ -9,7 +10,7 @@ const createUser = async (req: Request, res: Response) => {
 		const user = await userServices.createUser(validatedUser);
 		res.status(201).json({
 			success: true,
-			message: "User created successfully",
+			message: "User created successfully!",
 			data: user,
 		});
 	} catch (error) {
@@ -27,7 +28,7 @@ const findAllUsers = async (req: Request, res: Response) => {
 		const user = await userServices.findAllUsers();
 		res.status(200).json({
 			success: true,
-			message: "User fetched successfully",
+			message: "Users fetched successfully!",
 			data: user,
 		});
 	} catch (error) {
@@ -46,13 +47,13 @@ const findSingleUser = async (req: Request, res: Response) => {
 		const user = await userServices.findSingleUser(userId);
 		res.status(200).json({
 			success: true,
-			message: "User fetched successfully",
+			message: "User fetched successfully!",
 			data: user,
 		});
 	} catch (error: any) {
 		res.status(500).json({
 			success: false,
-			message: "Something went wrong",
+			message: "User not found",
 			error: {
 				code: 404,
 				description: error.message,
@@ -61,19 +62,21 @@ const findSingleUser = async (req: Request, res: Response) => {
 	}
 };
 
+//update user
 const updateUser = async (req: Request, res: Response) => {
 	const userId = req.params.userId;
+
 	try {
 		const user = await userServices.updateUser(userId, req.body);
 		res.status(200).json({
 			success: true,
-			message: "User has been updated successfully",
+			message: "User updated successfully!",
 			data: user,
 		});
 	} catch (error: any) {
 		res.status(500).json({
 			success: false,
-			message: "Something went wrong",
+			message: "User not found",
 			error: {
 				code: 404,
 				description: error.message,
@@ -82,19 +85,20 @@ const updateUser = async (req: Request, res: Response) => {
 	}
 };
 
+//delete user
 const deleteUser = async (req: Request, res: Response) => {
 	try {
 		const userId = req.params.userId;
-		const user = await userServices.deleteUser(userId);
+		await userServices.deleteUser(userId);
 		res.status(200).json({
 			success: true,
-			message: "User has been deleted successfully",
-			data: user,
+			message: "User deleted successfully!",
+			data: null,
 		});
 	} catch (error: any) {
 		res.status(500).json({
 			success: false,
-			message: "Something went wrong",
+			message: "User not found",
 			error: {
 				code: 404,
 				description: error.message,

@@ -4,21 +4,19 @@
 
 ```
 
-   git clone https://github.com/NiharMondal/level-2-assingment-2.git
+   git clone https://github.com/NiharMondal/level-2-assignment-2.git
 
-   npm install
+   // install all dependencies and devDependencies
 
    npm run dev
 
 ```
 
-> [!NOTE]   
-> Use **PATCH METHOD** to update data   
-> Use MongoDB default "_id" value to perform query or update     
-
 **When you are ready to use this app, endpoint should be like that**
 
 Users Endpoint--
+
+[!NOTE]: Use userId for updating user, orders and retrive.
 
 ```
 

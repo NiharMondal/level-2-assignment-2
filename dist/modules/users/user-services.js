@@ -14,30 +14,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
 const user_model_1 = __importDefault(require("./user-model"));
+//create user
 const createUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.default.create(user);
     return result;
 });
+//find all users
 const findAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.default.find();
+    const result = yield user_model_1.default.find().select("-orders");
     return result;
 });
+//find single user
 const findSingleUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     //checking user is found or not
-    const user = yield user_model_1.default.myStaticMethod(id);
-    if (!user) {
+    const checkUser = yield user_model_1.default.isUserExists(id);
+    if (!checkUser) {
         throw new Error("User not found!");
     }
-    const result = yield user_model_1.default.findById(id).select("-orders");
+    const result = yield user_model_1.default.findOne({ userId: id }).select("-orders");
     return result;
 });
+//update user
 const updateUser = (id, userData) => __awaiter(void 0, void 0, void 0, function* () {
     //checking user is found or not
-    const user = yield user_model_1.default.myStaticMethod(id);
+    const user = yield user_model_1.default.isUserExists(id);
     if (!user) {
         throw new Error("User not found!");
     }
-    const result = yield user_model_1.default.findByIdAndUpdate(id, userData, {
+    const result = yield user_model_1.default.findOneAndUpdate({ userId: id }, userData, {
         new: true,
         runValidators: true,
     });
@@ -45,12 +49,11 @@ const updateUser = (id, userData) => __awaiter(void 0, void 0, void 0, function*
 });
 const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     //checking user is found or not
-    const user = yield user_model_1.default.myStaticMethod(id);
+    const user = yield user_model_1.default.isUserExists(id);
     if (!user) {
         throw new Error("User not found!");
     }
-    const result = yield user_model_1.default.deleteOne({ _id: id });
-    return result;
+    yield user_model_1.default.deleteOne({ userId: id });
 });
 exports.userServices = {
     createUser,

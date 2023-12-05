@@ -12,14 +12,14 @@ router
 router
 	.route("/:userId")
 	.get(userController.findSingleUser)
-	.patch(userController.updateUser)
+	.put(userController.updateUser)
 	.delete(userController.deleteUser);
 
 //order routes
 router
 	.route("/:userId/orders")
 	.get(orderController.getAllOrdersOfSpecificUser)
-	.patch(orderController.updateOrder);
+	.put(orderController.updateOrder);
 
 //total-price route
 router
