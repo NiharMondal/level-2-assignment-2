@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { Model, Schema, model } from "mongoose";
 import { IUser, IOrder } from "./user-interface";
+import bcrypt from "bcryptjs";
+
 const orderSchema = new Schema<IOrder>({
 	productName: { type: String, required: true },
 	price: { type: Number, required: true },
@@ -48,7 +50,12 @@ const userSchema = new Schema<IUser, UserModel>(
 interface UserModel extends Model<IUser> {
 	isUserExists(id: string): Promise<IUser>;
 }
+//hash password before saving document
 
+userSchema.pre("save", async function () {
+	const hashedPassword = await bcrypt.hash(this.password, 10);
+	this.password = hashedPassword;
+});
 //exclude password field from user document
 userSchema.set("toJSON", {
 	transform: function (doc, ret) {
